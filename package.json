@@ -1,0 +1,8 @@
+{
+  "name": "quu",
+  "version": "0.1.0",
+  "description": "lightweight concurrent function queue",
+  "main": "quu.js",
+  "author": "yetzt <node@yetzt.me>",
+  "license": "Unlicense"
+}
