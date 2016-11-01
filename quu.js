@@ -2,13 +2,8 @@
 
 // constructor
 function quu(concurrency){
-	return (this instanceof quu) ? (this.concurrency = concurrency, this) : (new quu(concurrency));
+	return (this instanceof quu) ? (this.concurrency = concurrency || 1, this.running = 0, this.stack = [], this) : (new quu(concurrency));
 };
-
-// default values
-quu.prototype.running = 0;
-quu.prototype.stack = [];
-quu.prototype.concurrency = 1;
 
 // push tasks to execution queue 
 quu.prototype.push = function(fn){
