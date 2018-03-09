@@ -1,8 +1,27 @@
 {
   "name": "quu",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "lightweight concurrent function queue",
   "main": "quu.js",
   "author": "yetzt <node@yetzt.me>",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yetzt/node-quu.git"
+  },
+  "keywords": [
+    "queue",
+    "async",
+    "asynchronous",
+    "job",
+    "task",
+    "flow",
+    "concurrency",
+    "concurrent",
+    "quu"
+  ],
+  "bugs": {
+    "url": "https://github.com/yetzt/node-quu/issues"
+  },
+  "homepage": "https://github.com/yetzt/node-quu#readme"
 }

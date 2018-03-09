@@ -8,9 +8,13 @@
 
 Create an instance of quu.
 
-### quu.push(function task(done))
+### q.push(function task(done){ done(); })
 
-Add a task to the queue.
+Add a task to the queue. Call `done()` when the task is done.
+
+### q.done(function complete(){  })
+
+Called, when all tasks are completed.
 
 ## Example 
 
@@ -32,6 +36,12 @@ q.push(function(done){
 	// ok, lets wrap this up now!
 	
 	done();
+	
+});
+
+q.done(function(){
+	
+	// queue is empty
 	
 });
 
