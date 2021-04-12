@@ -4,17 +4,17 @@
 
 ## Usage
 
-### quu(concurrency)
+### quu(concurrency, wait)
 
-Create an instance of quu.
+Create an instance of quu. Run `<int> concurrency` tasks at once, `<bool> wait` for `run()` to be called before starting tasks.
 
-### q.push(function task(done){ done(); })
+### q.push(function task(done){ done(err); })
 
-Add a task to the queue. Call `done()` when the task is done.
+Add a task to the queue. Call `done()` when the task is done any `err` will be collected.
 
-### q.done(function complete(){  })
+### q.run(function complete(errors){  })
 
-Called, when all tasks are completed.
+`complete` will be called, when all tasks are completed, with all `errors` collected.
 
 ## Example 
 
@@ -39,7 +39,8 @@ q.push(function(done){
 	
 });
 
-q.done(function(){
+q.run(function(errs){
+	if (errs) err.forEach(console.error);
 	
 	// queue is empty
 	
