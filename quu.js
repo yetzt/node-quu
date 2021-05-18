@@ -35,7 +35,7 @@ quu.prototype.push = function(fn){
 	return this;
 };
 
-quu.prototype.done = quu.prototype.run = function(fn){
+quu.prototype.run = quu.prototype.done = quu.prototype.start = function(fn){
 	var self = this;
 
 	// if function was passed, add to stack
