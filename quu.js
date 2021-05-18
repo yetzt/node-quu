@@ -16,7 +16,7 @@ quu.prototype.push = function(fn){
 	!self.wait && setImmediate(function(){
 
 		// if stack is not empty and not staturated, get a task from the stack and execute
-		if (self.stack.length > 0 && self.running < self.concurrency) ++self.running, self.stack.shift()(function(err){
+		while (self.stack.length > 0 && self.running < self.concurrency) ++self.running, self.stack.shift()(function(err){
 			if (err) self.errors.push(err);
 
 			// increment counter
