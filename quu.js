@@ -15,6 +15,9 @@ quu.prototype.push = function(fn){
 	// check for execution at the end of the event loop
 	!self.wait && setImmediate(function(){
 
+		// invoke run callback when stack is empty
+		if (self.running + self.stack.length === 0) return self.then.forEach(function(fn){ fn(self.errors, self.completed); });
+
 		// if stack is not empty and not staturated, get a task from the stack and execute
 		while (self.stack.length > 0 && self.running < self.concurrency) ++self.running, self.stack.shift()(function(err){
 			if (err) self.errors.push(err);
