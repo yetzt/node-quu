@@ -1,6 +1,6 @@
 {
   "name": "quu",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "lightweight concurrent function queue",
   "main": "quu.js",
   "author": "yetzt <node@yetzt.me>",
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/yetzt/node-quu/issues"
   },
-  "homepage": "https://github.com/yetzt/node-quu#readme"
+  "homepage": "https://github.com/yetzt/node-quu#readme",
+  "engines": {
+    "node": ">=6"
+  }
 }
