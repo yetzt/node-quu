@@ -57,7 +57,10 @@ quu.prototype.run = quu.prototype.done = quu.prototype.start = function(fn){
 	// if still waiting, start running
 	this.wait && (this.wait = false, this.push());
 
-	return this;
+	// return a promise when no callback was provided
+	return (typeof fn === "function") ? this : new Promise((resolve,reject)=>{
+		this.then.push((errors, completed)=>resolve({ errors, completed }));
+	});
 };
 
 module.exports = quu;
