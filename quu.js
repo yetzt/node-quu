@@ -1,32 +1,46 @@
-#!/usr/bin/env node
 
 // constructor
 function quu(concurrency, wait){
-	return (this instanceof quu) ? (this.concurrency = concurrency || 1, this.wait = wait || false, this.running = 0, this.completed = 0, this.stack = [], this.then = [], this.errors = [], this) : (new quu(concurrency, wait));
+	if (!(this instanceof quu)) return new quu(concurrency, wait);
+
+	this.concurrency = concurrency || 1;
+	this.wait = wait || false;
+	this.running = 0;
+	this.completed = 0;
+	this.stack = [];
+	this.then = [];
+	this.errors = [];
+
+	return this;
 };
 
-// push tasks to execution queue 
+// push tasks to execution queue
 quu.prototype.push = function(fn){
-	var self = this;
 
 	// if function was passed, add to stack
-	if (typeof fn === "function") self.stack.push(fn);
+	if (typeof fn === "function") this.stack.push(fn);
 
 	// check for execution at the end of the event loop
-	!self.wait && setImmediate(function(){
+	!this.wait && setImmediate(()=>{
 
 		// if stack is not empty and not staturated, get a task from the stack and execute
-		while (self.stack.length > 0 && self.running < self.concurrency) ++self.running, self.stack.shift()(function(err){
-			if (err) self.errors.push(err);
+		while (this.stack.length > 0 && this.running < this.concurrency) ++this.running, this.stack.shift()(err=>{
+			if (err) this.errors.push(err);
 
 			// increment counter
-			self.completed++;
+			this.completed++;
 
-			// task completed
-			if (--self.running + self.stack.length === 0) return self.then.forEach(function(fn){ fn(self.errors, self.completed); });
+			// check if all tasks completed
+			if (--this.running + this.stack.length === 0) {
+
+				// execute all finishing callbacks
+				while (this.then.length > 0) this.then.shift()(this.errors, this.completed);
+				return;
+
+			};
 
 			// check for something to do
-			if (self.stack.length > 0) self.push();
+			if (this.stack.length > 0) this.push();
 
 		});
 
@@ -36,16 +50,12 @@ quu.prototype.push = function(fn){
 };
 
 quu.prototype.run = quu.prototype.done = quu.prototype.start = function(fn){
-	var self = this;
 
 	// if function was passed, add to stack
-	if (typeof fn === "function") self.then.push(fn);
-
-	// invoke callback when stack is empty
-	if (self.wait && (self.running + self.stack.length === 0)) return self.then.forEach(function(fn){ fn(self.errors, self.completed); });
+	if (typeof fn === "function") this.then.push(fn);
 
 	// if still waiting, start running
-	self.wait && (self.wait = false, self.push());
+	this.wait && (this.wait = false, this.push());
 
 	return this;
 };
